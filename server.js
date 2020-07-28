@@ -36,18 +36,17 @@ app.post('/signin', (req, res) => {
     req.body.email === db.users[0].email &&
     req.body.password === db.users[0].password
   ) {
-    res.json('successful login');
+    res.json(db.users[0]);
   }
   res.status(400).json('error logging in');
 });
 
 app.post('/register', (req, res) => {
-  const { email, name, password } = req.body;
+  const { email, name } = req.body;
   db.users.push({
     id: 3,
     name,
     email,
-    password,
     entries: 0,
     joined: new Date(),
   });
@@ -77,11 +76,11 @@ app.put('/image', (req, res) => {
     if (user.id === id) {
       found = true;
       user.entries++;
-      return res.status(200).json({ msg: `new entries are: ${user.entries}` });
+      return res.status(200).json(user.entries);
     }
   });
   if (!found) {
-    res.status(404).json('not found');
+    res.status(404).json('unable to get entries');
   }
 });
 
